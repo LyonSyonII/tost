@@ -10,6 +10,7 @@ pub trait Traverser {
         
         fn take_~*name(&mut self) -> Option<*tt_type>;
         fn take_~*name~_n(&mut self, n: usize) -> Option<Vec<*tt_type>>;
+        fn take_consequent_~*name(&mut self) -> Option<Vec<*tt_type>>;
     }
 }
 
@@ -32,6 +33,18 @@ impl Traverser for proc_macro::token_stream::IntoIter {
             }
             
             Some(vec)
+        }
+        fn take_consequent_~*name(&mut self) -> Option<Vec<*tt_type>> {
+            let mut vec = Vec::new();
+            while let Some(tt) = self.next().and_then(extract_~*name) {
+                vec.push(tt)
+            }
+
+            if vec.len() > 0 {
+                Some(vec)
+            } else {
+                None
+            }
         }
     }
 }
